@@ -1,11 +1,41 @@
 <mat-card>
   <mat-card-header>
-    {{title}}
+    {{ title }}
   </mat-card-header>
   <mat-card-content>
     <form action="" [formGroup]="empForm" (ngSubmit)="SaveEmployee()">
       <mat-form-field>
-        
+        <mat-label>Employee ID</mat-label>
+        <input type="text" matInput formControlName="id" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Employee Name</mat-label>
+        <input type="text" matInput formControlName="name" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Date of Joining</mat-label>
+        <input formControlName="doj" matInput [matDatepicker]="picker" />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Role</mat-label>
+        <mat-select>
+          @for (role of roles; track $index) {
+          <mat-option [value]="role">{{ role }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Salary</mat-label>
+        <input type="number" matInput formControlName="salary" required />
       </mat-form-field>
     </form>
   </mat-card-content>
