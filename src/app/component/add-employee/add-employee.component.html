@@ -1,9 +1,9 @@
-<mat-card>
-  <mat-card-header>
-    {{ title }}
-  </mat-card-header>
-  <mat-card-content>
-    <form action="" [formGroup]="empForm" (ngSubmit)="SaveEmployee()">
+<form [formGroup]="empForm" (ngSubmit)="SaveEmployee()">
+  <mat-card>
+    <mat-card-header>
+      {{ title }}
+    </mat-card-header>
+    <mat-card-content>
       <mat-form-field>
         <mat-label>Employee ID</mat-label>
         <input type="text" matInput formControlName="id" required />
@@ -26,7 +26,7 @@
 
       <mat-form-field>
         <mat-label>Role</mat-label>
-        <mat-select>
+        <mat-select formControlName="role" required>
           @for (role of roles; track $index) {
           <mat-option [value]="role">{{ role }}</mat-option>
           }
@@ -37,6 +37,10 @@
         <mat-label>Salary</mat-label>
         <input type="number" matInput formControlName="salary" required />
       </mat-form-field>
-    </form>
-  </mat-card-content>
-</mat-card>
+      <mat-card-actions>
+        <button mat-raised-button color="primary">Save</button>
+        <a (click)="closePopUp()" mat-raised-button color="accent">Close</a>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</form>

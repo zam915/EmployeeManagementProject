@@ -1,3 +1,46 @@
 {
-  "employee": []
+  "employee": [
+    {
+      "id": "007",
+      "name": "Htun Htun Min",
+      "doj": "2025-06-30T17:30:00.000Z",
+      "role": "Developer",
+      "salary": 400000
+    },
+    {
+      "id": "123",
+      "name": "Iron Man",
+      "doj": "2025-07-18T08:15:49.429Z",
+      "role": "Developer",
+      "salary": 900000
+    },
+    {
+      "id": "009",
+      "name": "Thor",
+      "doj": "2025-07-18T08:20:22.191Z",
+      "role": "HR",
+      "salary": 600000
+    },
+    {
+      "id": "010",
+      "name": "War Machine",
+      "doj": "2025-07-18T08:21:19.221Z",
+      "role": "Tester",
+      "salary": 700000
+    },
+    {
+      "id": "011",
+      "name": "Spider Man",
+      "doj": "2025-07-01T17:30:00.000Z",
+      "role": "Developer",
+      "salary": 500000
+    },
+    {
+      "id": "012",
+      "name": "Venom",
+      "doj": "2025-05-06T17:30:00.000Z",
+      "role": "Manager",
+      "salary": 350000
+    }
+  ]
 }
