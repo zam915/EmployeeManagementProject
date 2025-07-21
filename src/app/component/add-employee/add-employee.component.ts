@@ -17,6 +17,13 @@ import { Employee } from '../../model/Employee';
 import { EmployeeService } from '../../service/employee.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { Store } from '@ngrx/store';
+import {
+  addEmployee,
+  getEmployee,
+  updateEmployee,
+} from '../../Store/Employee.Action';
+import { selectEmployee } from '../../Store/Employee.Selector';
 @Component({
   selector: 'app-add-employee',
   standalone: true,
@@ -35,12 +42,20 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-employee.component.css'],
 })
 export class AddEmployeeComponent implements OnInit {
+  // constructor(
+  //   private service: EmployeeService,
+  //   private ref: MatDialogRef<AddEmployeeComponent>,
+  //   private toastr: ToastrService,
+  //   @Inject(MAT_DIALOG_DATA) public data: any
+  // ) {}
+
   constructor(
-    private service: EmployeeService,
+    private store: Store,
     private ref: MatDialogRef<AddEmployeeComponent>,
     private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
+
   title = 'Add Employee';
   dialogdata: any;
   isEdit = false;
@@ -50,7 +65,8 @@ export class AddEmployeeComponent implements OnInit {
     if (this.dialogdata.code > 0) {
       this.title = 'Edit Employee';
       this.isEdit = true;
-      this.service.Get(this.dialogdata.code).subscribe((item) => {
+      this.store.dispatch(getEmployee({ empId: this.dialogdata.code }));
+      this.store.select(selectEmployee).subscribe((item) => {
         let _data = item;
         if (_data !== null) {
           this.empForm.setValue({
@@ -62,6 +78,18 @@ export class AddEmployeeComponent implements OnInit {
           });
         }
       });
+      // this.service.Get(this.dialogdata.code).subscribe((item) => {
+      //   let _data = item;
+      //   if (_data !== null) {
+      //     this.empForm.setValue({
+      //       id: _data.id,
+      //       name: _data.name,
+      //       doj: _data.doj,
+      //       role: _data.role,
+      //       salary: _data.salary,
+      //     });
+      //   }
+      // });
     }
   }
 
@@ -83,17 +111,20 @@ export class AddEmployeeComponent implements OnInit {
         role: this.empForm.value.role as string,
         salary: this.empForm.value.salary as number,
       };
-      if (this.isEdit) {
-        this.service.Update(_data).subscribe((item) => {
-          this.toastr.success('Employee Updated Successfully', 'Updated');
-          this.closePopUp();
-        });
+      if (!this.isEdit) {
+        // this.service.Update(_data).subscribe((item) => {
+        //   this.toastr.success('Employee Updated Successfully', 'Updated');
+        //   this.closePopUp();
+        // });
+        this.store.dispatch(addEmployee({ data: _data }));
       } else {
-        this.service.Create(_data).subscribe((item) => {
-          this.toastr.success('Employee Created Successfully', 'Success');
-          this.closePopUp();
-        });
+        // this.service.Create(_data).subscribe((item) => {
+        //   this.toastr.success('Employee Created Successfully', 'Success');
+        //   this.closePopUp();
+        // });
+        this.store.dispatch(updateEmployee({ data: _data }));
       }
+      this.closePopUp();
     } else {
       console.error('Form is invalid');
       this.empForm.markAllAsTouched(); // Mark all controls as touched to show validation errors

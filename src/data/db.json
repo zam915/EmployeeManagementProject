@@ -17,16 +17,9 @@
     {
       "id": "009",
       "name": "Thor",
-      "doj": "2025-07-18T08:20:22.191Z",
+      "doj": "2025-06-30T17:30:00.000Z",
       "role": "HR",
       "salary": 600000
-    },
-    {
-      "id": "010",
-      "name": "War Machine",
-      "doj": "2025-07-18T08:21:19.221Z",
-      "role": "Tester",
-      "salary": 700000
     },
     {
       "id": "011",
@@ -37,7 +30,7 @@
     },
     {
       "id": "012",
-      "name": "Venom",
+      "name": "Venom Update",
       "doj": "2025-05-06T17:30:00.000Z",
       "role": "Manager",
       "salary": 350000

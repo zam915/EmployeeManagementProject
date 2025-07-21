@@ -5,9 +5,12 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 import { Employee } from '../../model/Employee';
-import { EmployeeService } from '../../service/employee.service';
+// import { EmployeeService } from '../../service/employee.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { deleteEmployee, loadEmployee } from '../../Store/Employee.Action';
+import { getEmpList } from '../../Store/Employee.Selector';
 
 @Component({
   selector: 'app-employee',
@@ -22,7 +25,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './employee.component.css',
 })
 export class EmployeeComponent implements OnInit, OnDestroy {
-  constructor(private dialog: MatDialog, private service: EmployeeService) {}
+  // constructor(private dialog: MatDialog, private service: EmployeeService) {}
+  constructor(private dialog: MatDialog, private store: Store) {}
 
   empList: Employee[] = [];
   displayedColumns: string[] = [
@@ -42,11 +46,16 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
   GetAllEmployee() {
-    let sub = this.service.GetAll().subscribe((item) => {
+    // let sub = this.service.GetAll().subscribe((item) => {
+    //   this.empList = item;
+    //   this.dataSource = new MatTableDataSource<Employee>(this.empList);
+    // });
+    // this.subscription.add(sub);
+    this.store.dispatch(loadEmployee());
+    this.store.select(getEmpList).subscribe((item) => {
       this.empList = item;
       this.dataSource = new MatTableDataSource<Employee>(this.empList);
     });
-    this.subscription.add(sub);
   }
   AddEmployee() {
     // Logic to add an employee will go here
@@ -54,10 +63,11 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   }
   DeleteEmployee(empId: number) {
     if (confirm('Are You Sure?')) {
-      let sub = this.service.Delete(empId).subscribe((item) => {
-        this.GetAllEmployee();
-      });
-      this.subscription.add(sub);
+      // let sub = this.service.Delete(empId).subscribe((item) => {
+      //   this.GetAllEmployee();
+      // });
+      // this.subscription.add(sub);\
+      this.store.dispatch(deleteEmployee({ empId: empId }));
     }
   }
   EditEmployee(empId: number) {
